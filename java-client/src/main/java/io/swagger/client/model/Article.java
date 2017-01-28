@@ -17,27 +17,46 @@ import java.util.Objects;
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.client.model.ArticleEnclosure;
 import org.joda.time.DateTime;
 
 /**
  * Article
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-01-28T18:22:44.996Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-01-28T21:11:27.129Z")
 public class Article {
   @SerializedName("id")
   private Integer id = null;
 
-  @SerializedName("title")
-  private String title = null;
+  @SerializedName("author")
+  private String author = null;
 
-  @SerializedName("link")
-  private String link = null;
+  @SerializedName("category")
+  private String category = null;
+
+  @SerializedName("comments")
+  private String comments = null;
 
   @SerializedName("description")
   private String description = null;
 
+  @SerializedName("enclosure")
+  private ArticleEnclosure enclosure = null;
+
+  @SerializedName("guid")
+  private String guid = null;
+
+  @SerializedName("link")
+  private String link = null;
+
   @SerializedName("pubdate")
   private DateTime pubdate = null;
+
+  @SerializedName("source")
+  private String source = null;
+
+  @SerializedName("title")
+  private String title = null;
 
   public Article id(Integer id) {
     this.id = id;
@@ -48,7 +67,7 @@ public class Article {
    * Get id
    * @return id
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(example = "null", required = true, value = "")
   public Integer getId() {
     return id;
   }
@@ -57,40 +76,58 @@ public class Article {
     this.id = id;
   }
 
-  public Article title(String title) {
-    this.title = title;
+  public Article author(String author) {
+    this.author = author;
     return this;
   }
 
    /**
-   * Get title
-   * @return title
-  **/
-  @ApiModelProperty(example = "null", required = true, value = "")
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public Article link(String link) {
-    this.link = link;
-    return this;
-  }
-
-   /**
-   * Get link
-   * @return link
+   * Get author
+   * @return author
   **/
   @ApiModelProperty(example = "null", value = "")
-  public String getLink() {
-    return link;
+  public String getAuthor() {
+    return author;
   }
 
-  public void setLink(String link) {
-    this.link = link;
+  public void setAuthor(String author) {
+    this.author = author;
+  }
+
+  public Article category(String category) {
+    this.category = category;
+    return this;
+  }
+
+   /**
+   * Get category
+   * @return category
+  **/
+  @ApiModelProperty(example = "null", value = "")
+  public String getCategory() {
+    return category;
+  }
+
+  public void setCategory(String category) {
+    this.category = category;
+  }
+
+  public Article comments(String comments) {
+    this.comments = comments;
+    return this;
+  }
+
+   /**
+   * Get comments
+   * @return comments
+  **/
+  @ApiModelProperty(example = "null", value = "")
+  public String getComments() {
+    return comments;
+  }
+
+  public void setComments(String comments) {
+    this.comments = comments;
   }
 
   public Article description(String description) {
@@ -102,13 +139,67 @@ public class Article {
    * Get description
    * @return description
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(example = "null", required = true, value = "")
   public String getDescription() {
     return description;
   }
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public Article enclosure(ArticleEnclosure enclosure) {
+    this.enclosure = enclosure;
+    return this;
+  }
+
+   /**
+   * Get enclosure
+   * @return enclosure
+  **/
+  @ApiModelProperty(example = "null", value = "")
+  public ArticleEnclosure getEnclosure() {
+    return enclosure;
+  }
+
+  public void setEnclosure(ArticleEnclosure enclosure) {
+    this.enclosure = enclosure;
+  }
+
+  public Article guid(String guid) {
+    this.guid = guid;
+    return this;
+  }
+
+   /**
+   * Get guid
+   * @return guid
+  **/
+  @ApiModelProperty(example = "null", value = "")
+  public String getGuid() {
+    return guid;
+  }
+
+  public void setGuid(String guid) {
+    this.guid = guid;
+  }
+
+  public Article link(String link) {
+    this.link = link;
+    return this;
+  }
+
+   /**
+   * Get link
+   * @return link
+  **/
+  @ApiModelProperty(example = "null", required = true, value = "")
+  public String getLink() {
+    return link;
+  }
+
+  public void setLink(String link) {
+    this.link = link;
   }
 
   public Article pubdate(DateTime pubdate) {
@@ -129,6 +220,42 @@ public class Article {
     this.pubdate = pubdate;
   }
 
+  public Article source(String source) {
+    this.source = source;
+    return this;
+  }
+
+   /**
+   * Get source
+   * @return source
+  **/
+  @ApiModelProperty(example = "null", value = "")
+  public String getSource() {
+    return source;
+  }
+
+  public void setSource(String source) {
+    this.source = source;
+  }
+
+  public Article title(String title) {
+    this.title = title;
+    return this;
+  }
+
+   /**
+   * Get title
+   * @return title
+  **/
+  @ApiModelProperty(example = "null", required = true, value = "")
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -140,15 +267,21 @@ public class Article {
     }
     Article article = (Article) o;
     return Objects.equals(this.id, article.id) &&
-        Objects.equals(this.title, article.title) &&
-        Objects.equals(this.link, article.link) &&
+        Objects.equals(this.author, article.author) &&
+        Objects.equals(this.category, article.category) &&
+        Objects.equals(this.comments, article.comments) &&
         Objects.equals(this.description, article.description) &&
-        Objects.equals(this.pubdate, article.pubdate);
+        Objects.equals(this.enclosure, article.enclosure) &&
+        Objects.equals(this.guid, article.guid) &&
+        Objects.equals(this.link, article.link) &&
+        Objects.equals(this.pubdate, article.pubdate) &&
+        Objects.equals(this.source, article.source) &&
+        Objects.equals(this.title, article.title);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, link, description, pubdate);
+    return Objects.hash(id, author, category, comments, description, enclosure, guid, link, pubdate, source, title);
   }
 
 
@@ -158,10 +291,16 @@ public class Article {
     sb.append("class Article {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    title: ").append(toIndentedString(title)).append("\n");
-    sb.append("    link: ").append(toIndentedString(link)).append("\n");
+    sb.append("    author: ").append(toIndentedString(author)).append("\n");
+    sb.append("    category: ").append(toIndentedString(category)).append("\n");
+    sb.append("    comments: ").append(toIndentedString(comments)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    enclosure: ").append(toIndentedString(enclosure)).append("\n");
+    sb.append("    guid: ").append(toIndentedString(guid)).append("\n");
+    sb.append("    link: ").append(toIndentedString(link)).append("\n");
     sb.append("    pubdate: ").append(toIndentedString(pubdate)).append("\n");
+    sb.append("    source: ").append(toIndentedString(source)).append("\n");
+    sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("}");
     return sb.toString();
   }

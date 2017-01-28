@@ -119,7 +119,7 @@ Name | Type | Description  | Notes
 
 <a name="feedsGet"></a>
 # **feedsGet**
-> List&lt;Feed&gt; feedsGet()
+> List&lt;InlineResponse2001&gt; feedsGet()
 
 Get all feeds subscribed by currend user
 
@@ -142,7 +142,7 @@ api_key.setApiKey("YOUR API KEY");
 
 FeedApi apiInstance = new FeedApi();
 try {
-    List<Feed> result = apiInstance.feedsGet();
+    List<InlineResponse2001> result = apiInstance.feedsGet();
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling FeedApi#feedsGet");
@@ -155,7 +155,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**List&lt;Feed&gt;**](Feed.md)
+[**List&lt;InlineResponse2001&gt;**](InlineResponse2001.md)
 
 ### Authorization
 

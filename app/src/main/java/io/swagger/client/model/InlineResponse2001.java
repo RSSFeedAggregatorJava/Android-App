@@ -19,50 +19,50 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * Credentials1
+ * InlineResponse2001
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-01-28T21:11:27.129Z")
-public class Credentials1 {
-  @SerializedName("email")
-  private String email = null;
+public class InlineResponse2001 {
+  @SerializedName("id")
+  private Integer id = null;
 
-  @SerializedName("password")
-  private String password = null;
+  @SerializedName("title")
+  private String title = null;
 
-  public Credentials1 email(String email) {
-    this.email = email;
+  public InlineResponse2001 id(Integer id) {
+    this.id = id;
     return this;
   }
 
    /**
-   * Get email
-   * @return email
+   * Get id
+   * @return id
   **/
-  @ApiModelProperty(example = "null", required = true, value = "")
-  public String getEmail() {
-    return email;
+  @ApiModelProperty(example = "null", value = "")
+  public Integer getId() {
+    return id;
   }
 
-  public void setEmail(String email) {
-    this.email = email;
+  public void setId(Integer id) {
+    this.id = id;
   }
 
-  public Credentials1 password(String password) {
-    this.password = password;
+  public InlineResponse2001 title(String title) {
+    this.title = title;
     return this;
   }
 
    /**
-   * Get password
-   * @return password
+   * title of FEED
+   * @return title
   **/
-  @ApiModelProperty(example = "null", required = true, value = "")
-  public String getPassword() {
-    return password;
+  @ApiModelProperty(example = "null", value = "title of FEED")
+  public String getTitle() {
+    return title;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
+  public void setTitle(String title) {
+    this.title = title;
   }
 
 
@@ -74,24 +74,24 @@ public class Credentials1 {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Credentials1 credentials1 = (Credentials1) o;
-    return Objects.equals(this.email, credentials1.email) &&
-        Objects.equals(this.password, credentials1.password);
+    InlineResponse2001 inlineResponse2001 = (InlineResponse2001) o;
+    return Objects.equals(this.id, inlineResponse2001.id) &&
+        Objects.equals(this.title, inlineResponse2001.title);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(email, password);
+    return Objects.hash(id, title);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Credentials1 {\n");
+    sb.append("class InlineResponse2001 {\n");
     
-    sb.append("    email: ").append(toIndentedString(email)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("}");
     return sb.toString();
   }

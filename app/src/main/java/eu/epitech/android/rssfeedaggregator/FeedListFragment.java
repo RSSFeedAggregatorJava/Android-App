@@ -18,7 +18,7 @@ import android.widget.ListView;
 
 import java.util.List;
 
-import io.swagger.client.model.InlineResponse2001;
+import io.swagger.client.model.Feed;
 
 public class FeedListFragment extends Fragment {
 
@@ -27,7 +27,7 @@ public class FeedListFragment extends Fragment {
     private SwipeRefreshLayout mSwipeLayout;
     private ListView mListView;
     private FeedListAdapter mListAdapter;
-    private List<InlineResponse2001> mDataList;
+    private List<Feed> mDataList;
     private String mApiKey;
     private View mProgressView;
     private Context mContext;
@@ -129,12 +129,12 @@ public class FeedListFragment extends Fragment {
         }
     }
 
-    public class GetFeedListTask extends AsyncTask<Boolean, Void, List<InlineResponse2001>> {
+    public class GetFeedListTask extends AsyncTask<Boolean, Void, List<Feed>> {
 
         Boolean mIsStartingGet;
 
         @Override
-        protected List<InlineResponse2001> doInBackground(Boolean... params) {
+        protected List<Feed> doInBackground(Boolean... params) {
             mIsStartingGet = params[0];
 
             //TODO get the list from the API
@@ -150,7 +150,7 @@ public class FeedListFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(final List<InlineResponse2001> list) {
+        protected void onPostExecute(final List<Feed> list) {
             if (mIsStartingGet) {
                 mListAdapter = new FeedListAdapter(mContext, list);
                 mListView.setAdapter(mListAdapter);

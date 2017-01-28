@@ -99,6 +99,7 @@ All URIs are relative to *http://localhost*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *ArticleApi* | [**articlesFeedIdArticleIdGet**](docs/ArticleApi.md#articlesFeedIdArticleIdGet) | **GET** /articles/{feedId}/{articleId} | retrieve article feed id and article id (id correspond to 1st, 2nd, 3rd, 4th... article)
+*ArticleApi* | [**articlesFeedIdGet**](docs/ArticleApi.md#articlesFeedIdGet) | **GET** /articles/{feedId} | retrieve the lisT of articles in the feed
 *FeedApi* | [**feedsDelete**](docs/FeedApi.md#feedsDelete) | **DELETE** /feeds | Unsuscribe to a feed by url (keep it in database, juste remove reference for user)
 *FeedApi* | [**feedsFeedIdGet**](docs/FeedApi.md#feedsFeedIdGet) | **GET** /feeds/{feedId} | Find a feed and retrieve its articles
 *FeedApi* | [**feedsGet**](docs/FeedApi.md#feedsGet) | **GET** /feeds | Get all feeds subscribed by currend user
@@ -111,10 +112,13 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [Article](docs/Article.md)
+ - [ArticleEnclosure](docs/ArticleEnclosure.md)
  - [Credentials](docs/Credentials.md)
  - [Credentials1](docs/Credentials1.md)
  - [Feed](docs/Feed.md)
  - [InlineResponse200](docs/InlineResponse200.md)
+ - [InlineResponse2001](docs/InlineResponse2001.md)
+ - [InlineResponse2002](docs/InlineResponse2002.md)
  - [User](docs/User.md)
 
 

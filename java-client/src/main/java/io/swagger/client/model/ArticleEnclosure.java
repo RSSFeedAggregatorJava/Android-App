@@ -17,52 +17,74 @@ import java.util.Objects;
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.math.BigDecimal;
 
 /**
- * Credentials1
+ * ArticleEnclosure
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-01-28T21:11:27.129Z")
-public class Credentials1 {
-  @SerializedName("email")
-  private String email = null;
+public class ArticleEnclosure {
+  @SerializedName("length")
+  private BigDecimal length = null;
 
-  @SerializedName("password")
-  private String password = null;
+  @SerializedName("type")
+  private String type = null;
 
-  public Credentials1 email(String email) {
-    this.email = email;
+  @SerializedName("url")
+  private String url = null;
+
+  public ArticleEnclosure length(BigDecimal length) {
+    this.length = length;
     return this;
   }
 
    /**
-   * Get email
-   * @return email
+   * Get length
+   * @return length
   **/
-  @ApiModelProperty(example = "null", required = true, value = "")
-  public String getEmail() {
-    return email;
+  @ApiModelProperty(example = "null", value = "")
+  public BigDecimal getLength() {
+    return length;
   }
 
-  public void setEmail(String email) {
-    this.email = email;
+  public void setLength(BigDecimal length) {
+    this.length = length;
   }
 
-  public Credentials1 password(String password) {
-    this.password = password;
+  public ArticleEnclosure type(String type) {
+    this.type = type;
     return this;
   }
 
    /**
-   * Get password
-   * @return password
+   * Get type
+   * @return type
   **/
-  @ApiModelProperty(example = "null", required = true, value = "")
-  public String getPassword() {
-    return password;
+  @ApiModelProperty(example = "null", value = "")
+  public String getType() {
+    return type;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
+  public void setType(String type) {
+    this.type = type;
+  }
+
+  public ArticleEnclosure url(String url) {
+    this.url = url;
+    return this;
+  }
+
+   /**
+   * Get url
+   * @return url
+  **/
+  @ApiModelProperty(example = "null", value = "")
+  public String getUrl() {
+    return url;
+  }
+
+  public void setUrl(String url) {
+    this.url = url;
   }
 
 
@@ -74,24 +96,26 @@ public class Credentials1 {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Credentials1 credentials1 = (Credentials1) o;
-    return Objects.equals(this.email, credentials1.email) &&
-        Objects.equals(this.password, credentials1.password);
+    ArticleEnclosure articleEnclosure = (ArticleEnclosure) o;
+    return Objects.equals(this.length, articleEnclosure.length) &&
+        Objects.equals(this.type, articleEnclosure.type) &&
+        Objects.equals(this.url, articleEnclosure.url);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(email, password);
+    return Objects.hash(length, type, url);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Credentials1 {\n");
+    sb.append("class ArticleEnclosure {\n");
     
-    sb.append("    email: ").append(toIndentedString(email)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    length: ").append(toIndentedString(length)).append("\n");
+    sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("    url: ").append(toIndentedString(url)).append("\n");
     sb.append("}");
     return sb.toString();
   }
