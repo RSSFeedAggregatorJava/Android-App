@@ -21,7 +21,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * Feed
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-01-26T20:46:26.709Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-01-28T18:22:44.996Z")
 public class Feed {
   @SerializedName("id")
   private Integer id = null;
@@ -29,47 +29,17 @@ public class Feed {
   @SerializedName("url")
   private String url = null;
 
-  @SerializedName("category")
-  private String category = null;
-
-  @SerializedName("copyright")
-  private String copyright = null;
-
-  @SerializedName("description")
-  private String description = null;
-
-  @SerializedName("docs")
-  private String docs = null;
-
-  @SerializedName("generator")
-  private String generator = null;
-
-  @SerializedName("image")
-  private String image = null;
-
-  @SerializedName("language")
-  private String language = null;
-
-  @SerializedName("lastBuildDate")
-  private String lastBuildDate = null;
+  @SerializedName("title")
+  private String title = null;
 
   @SerializedName("link")
   private String link = null;
 
-  @SerializedName("managingEditor")
-  private String managingEditor = null;
+  @SerializedName("description")
+  private String description = null;
 
-  @SerializedName("pubDate")
-  private String pubDate = null;
-
-  @SerializedName("rating")
-  private String rating = null;
-
-  @SerializedName("title")
-  private String title = null;
-
-  @SerializedName("webMaster")
-  private String webMaster = null;
+  @SerializedName("language")
+  private String language = null;
 
   public Feed id(Integer id) {
     this.id = id;
@@ -80,7 +50,7 @@ public class Feed {
    * Get id
    * @return id
   **/
-  @ApiModelProperty(example = "null", required = true, value = "")
+  @ApiModelProperty(example = "null", value = "")
   public Integer getId() {
     return id;
   }
@@ -107,40 +77,40 @@ public class Feed {
     this.url = url;
   }
 
-  public Feed category(String category) {
-    this.category = category;
+  public Feed title(String title) {
+    this.title = title;
     return this;
   }
 
    /**
-   * Get category
-   * @return category
+   * Get title
+   * @return title
   **/
   @ApiModelProperty(example = "null", value = "")
-  public String getCategory() {
-    return category;
+  public String getTitle() {
+    return title;
   }
 
-  public void setCategory(String category) {
-    this.category = category;
+  public void setTitle(String title) {
+    this.title = title;
   }
 
-  public Feed copyright(String copyright) {
-    this.copyright = copyright;
+  public Feed link(String link) {
+    this.link = link;
     return this;
   }
 
    /**
-   * Get copyright
-   * @return copyright
+   * url of blog corresponding to feed
+   * @return link
   **/
-  @ApiModelProperty(example = "null", value = "")
-  public String getCopyright() {
-    return copyright;
+  @ApiModelProperty(example = "null", value = "url of blog corresponding to feed")
+  public String getLink() {
+    return link;
   }
 
-  public void setCopyright(String copyright) {
-    this.copyright = copyright;
+  public void setLink(String link) {
+    this.link = link;
   }
 
   public Feed description(String description) {
@@ -152,67 +122,13 @@ public class Feed {
    * Get description
    * @return description
   **/
-  @ApiModelProperty(example = "null", required = true, value = "")
+  @ApiModelProperty(example = "null", value = "")
   public String getDescription() {
     return description;
   }
 
   public void setDescription(String description) {
     this.description = description;
-  }
-
-  public Feed docs(String docs) {
-    this.docs = docs;
-    return this;
-  }
-
-   /**
-   * Get docs
-   * @return docs
-  **/
-  @ApiModelProperty(example = "null", value = "")
-  public String getDocs() {
-    return docs;
-  }
-
-  public void setDocs(String docs) {
-    this.docs = docs;
-  }
-
-  public Feed generator(String generator) {
-    this.generator = generator;
-    return this;
-  }
-
-   /**
-   * Get generator
-   * @return generator
-  **/
-  @ApiModelProperty(example = "null", value = "")
-  public String getGenerator() {
-    return generator;
-  }
-
-  public void setGenerator(String generator) {
-    this.generator = generator;
-  }
-
-  public Feed image(String image) {
-    this.image = image;
-    return this;
-  }
-
-   /**
-   * Get image
-   * @return image
-  **/
-  @ApiModelProperty(example = "null", value = "")
-  public String getImage() {
-    return image;
-  }
-
-  public void setImage(String image) {
-    this.image = image;
   }
 
   public Feed language(String language) {
@@ -233,132 +149,6 @@ public class Feed {
     this.language = language;
   }
 
-  public Feed lastBuildDate(String lastBuildDate) {
-    this.lastBuildDate = lastBuildDate;
-    return this;
-  }
-
-   /**
-   * Get lastBuildDate
-   * @return lastBuildDate
-  **/
-  @ApiModelProperty(example = "null", value = "")
-  public String getLastBuildDate() {
-    return lastBuildDate;
-  }
-
-  public void setLastBuildDate(String lastBuildDate) {
-    this.lastBuildDate = lastBuildDate;
-  }
-
-  public Feed link(String link) {
-    this.link = link;
-    return this;
-  }
-
-   /**
-   * url of blog corresponding to feed
-   * @return link
-  **/
-  @ApiModelProperty(example = "null", required = true, value = "url of blog corresponding to feed")
-  public String getLink() {
-    return link;
-  }
-
-  public void setLink(String link) {
-    this.link = link;
-  }
-
-  public Feed managingEditor(String managingEditor) {
-    this.managingEditor = managingEditor;
-    return this;
-  }
-
-   /**
-   * Get managingEditor
-   * @return managingEditor
-  **/
-  @ApiModelProperty(example = "null", value = "")
-  public String getManagingEditor() {
-    return managingEditor;
-  }
-
-  public void setManagingEditor(String managingEditor) {
-    this.managingEditor = managingEditor;
-  }
-
-  public Feed pubDate(String pubDate) {
-    this.pubDate = pubDate;
-    return this;
-  }
-
-   /**
-   * Get pubDate
-   * @return pubDate
-  **/
-  @ApiModelProperty(example = "null", value = "")
-  public String getPubDate() {
-    return pubDate;
-  }
-
-  public void setPubDate(String pubDate) {
-    this.pubDate = pubDate;
-  }
-
-  public Feed rating(String rating) {
-    this.rating = rating;
-    return this;
-  }
-
-   /**
-   * Get rating
-   * @return rating
-  **/
-  @ApiModelProperty(example = "null", value = "")
-  public String getRating() {
-    return rating;
-  }
-
-  public void setRating(String rating) {
-    this.rating = rating;
-  }
-
-  public Feed title(String title) {
-    this.title = title;
-    return this;
-  }
-
-   /**
-   * Get title
-   * @return title
-  **/
-  @ApiModelProperty(example = "null", required = true, value = "")
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public Feed webMaster(String webMaster) {
-    this.webMaster = webMaster;
-    return this;
-  }
-
-   /**
-   * Get webMaster
-   * @return webMaster
-  **/
-  @ApiModelProperty(example = "null", value = "")
-  public String getWebMaster() {
-    return webMaster;
-  }
-
-  public void setWebMaster(String webMaster) {
-    this.webMaster = webMaster;
-  }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -371,25 +161,15 @@ public class Feed {
     Feed feed = (Feed) o;
     return Objects.equals(this.id, feed.id) &&
         Objects.equals(this.url, feed.url) &&
-        Objects.equals(this.category, feed.category) &&
-        Objects.equals(this.copyright, feed.copyright) &&
-        Objects.equals(this.description, feed.description) &&
-        Objects.equals(this.docs, feed.docs) &&
-        Objects.equals(this.generator, feed.generator) &&
-        Objects.equals(this.image, feed.image) &&
-        Objects.equals(this.language, feed.language) &&
-        Objects.equals(this.lastBuildDate, feed.lastBuildDate) &&
-        Objects.equals(this.link, feed.link) &&
-        Objects.equals(this.managingEditor, feed.managingEditor) &&
-        Objects.equals(this.pubDate, feed.pubDate) &&
-        Objects.equals(this.rating, feed.rating) &&
         Objects.equals(this.title, feed.title) &&
-        Objects.equals(this.webMaster, feed.webMaster);
+        Objects.equals(this.link, feed.link) &&
+        Objects.equals(this.description, feed.description) &&
+        Objects.equals(this.language, feed.language);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, url, category, copyright, description, docs, generator, image, language, lastBuildDate, link, managingEditor, pubDate, rating, title, webMaster);
+    return Objects.hash(id, url, title, link, description, language);
   }
 
 
@@ -400,20 +180,10 @@ public class Feed {
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    url: ").append(toIndentedString(url)).append("\n");
-    sb.append("    category: ").append(toIndentedString(category)).append("\n");
-    sb.append("    copyright: ").append(toIndentedString(copyright)).append("\n");
-    sb.append("    description: ").append(toIndentedString(description)).append("\n");
-    sb.append("    docs: ").append(toIndentedString(docs)).append("\n");
-    sb.append("    generator: ").append(toIndentedString(generator)).append("\n");
-    sb.append("    image: ").append(toIndentedString(image)).append("\n");
-    sb.append("    language: ").append(toIndentedString(language)).append("\n");
-    sb.append("    lastBuildDate: ").append(toIndentedString(lastBuildDate)).append("\n");
-    sb.append("    link: ").append(toIndentedString(link)).append("\n");
-    sb.append("    managingEditor: ").append(toIndentedString(managingEditor)).append("\n");
-    sb.append("    pubDate: ").append(toIndentedString(pubDate)).append("\n");
-    sb.append("    rating: ").append(toIndentedString(rating)).append("\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
-    sb.append("    webMaster: ").append(toIndentedString(webMaster)).append("\n");
+    sb.append("    link: ").append(toIndentedString(link)).append("\n");
+    sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    language: ").append(toIndentedString(language)).append("\n");
     sb.append("}");
     return sb.toString();
   }

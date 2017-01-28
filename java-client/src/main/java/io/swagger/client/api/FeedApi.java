@@ -29,7 +29,6 @@ import java.io.IOException;
 
 import java.math.BigDecimal;
 import io.swagger.client.model.Feed;
-import io.swagger.client.model.InlineResponse2001;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -95,7 +94,7 @@ public class FeedApi {
             });
         }
 
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "api_key" };
         return apiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     
@@ -348,23 +347,23 @@ public class FeedApi {
     /**
      * Get all feeds subscribed by currend user
      * 
-     * @return List&lt;InlineResponse2001&gt;
+     * @return List&lt;Feed&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public List<InlineResponse2001> feedsGet() throws ApiException {
-        ApiResponse<List<InlineResponse2001>> resp = feedsGetWithHttpInfo();
+    public List<Feed> feedsGet() throws ApiException {
+        ApiResponse<List<Feed>> resp = feedsGetWithHttpInfo();
         return resp.getData();
     }
 
     /**
      * Get all feeds subscribed by currend user
      * 
-     * @return ApiResponse&lt;List&lt;InlineResponse2001&gt;&gt;
+     * @return ApiResponse&lt;List&lt;Feed&gt;&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<List<InlineResponse2001>> feedsGetWithHttpInfo() throws ApiException {
+    public ApiResponse<List<Feed>> feedsGetWithHttpInfo() throws ApiException {
         com.squareup.okhttp.Call call = feedsGetValidateBeforeCall(null, null);
-        Type localVarReturnType = new TypeToken<List<InlineResponse2001>>(){}.getType();
+        Type localVarReturnType = new TypeToken<List<Feed>>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
@@ -375,7 +374,7 @@ public class FeedApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call feedsGetAsync(final ApiCallback<List<InlineResponse2001>> callback) throws ApiException {
+    public com.squareup.okhttp.Call feedsGetAsync(final ApiCallback<List<Feed>> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -397,7 +396,7 @@ public class FeedApi {
         }
 
         com.squareup.okhttp.Call call = feedsGetValidateBeforeCall(progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<List<InlineResponse2001>>(){}.getType();
+        Type localVarReturnType = new TypeToken<List<Feed>>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
@@ -440,7 +439,7 @@ public class FeedApi {
             });
         }
 
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "api_key" };
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
     

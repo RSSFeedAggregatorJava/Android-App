@@ -19,9 +19,19 @@ Unsuscribe to a feed by url (keep it in database, juste remove reference for use
 ### Example
 ```java
 // Import classes:
+//import io.swagger.client.ApiClient;
 //import io.swagger.client.ApiException;
+//import io.swagger.client.Configuration;
+//import io.swagger.client.auth.*;
 //import io.swagger.client.api.FeedApi;
 
+ApiClient defaultClient = Configuration.getDefaultApiClient();
+
+// Configure API key authorization: api_key
+ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
+api_key.setApiKey("YOUR API KEY");
+// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+//api_key.setApiKeyPrefix("Token");
 
 FeedApi apiInstance = new FeedApi();
 Integer feedId = 56; // Integer | ID of feed that user want to unsubscribe
@@ -45,7 +55,7 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -109,7 +119,7 @@ Name | Type | Description  | Notes
 
 <a name="feedsGet"></a>
 # **feedsGet**
-> List&lt;InlineResponse2001&gt; feedsGet()
+> List&lt;Feed&gt; feedsGet()
 
 Get all feeds subscribed by currend user
 
@@ -132,7 +142,7 @@ api_key.setApiKey("YOUR API KEY");
 
 FeedApi apiInstance = new FeedApi();
 try {
-    List<InlineResponse2001> result = apiInstance.feedsGet();
+    List<Feed> result = apiInstance.feedsGet();
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling FeedApi#feedsGet");
@@ -145,7 +155,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**List&lt;InlineResponse2001&gt;**](InlineResponse2001.md)
+[**List&lt;Feed&gt;**](Feed.md)
 
 ### Authorization
 
@@ -165,9 +175,19 @@ Suscribe to a feed by url (add it in database, and reference its id for current 
 ### Example
 ```java
 // Import classes:
+//import io.swagger.client.ApiClient;
 //import io.swagger.client.ApiException;
+//import io.swagger.client.Configuration;
+//import io.swagger.client.auth.*;
 //import io.swagger.client.api.FeedApi;
 
+ApiClient defaultClient = Configuration.getDefaultApiClient();
+
+// Configure API key authorization: api_key
+ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
+api_key.setApiKey("YOUR API KEY");
+// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+//api_key.setApiKeyPrefix("Token");
 
 FeedApi apiInstance = new FeedApi();
 String feedUrl = "feedUrl_example"; // String | url of feed that user want to subscribe
@@ -192,7 +212,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 

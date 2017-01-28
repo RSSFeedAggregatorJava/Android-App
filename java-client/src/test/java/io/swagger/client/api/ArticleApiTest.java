@@ -15,7 +15,6 @@ package io.swagger.client.api;
 
 import io.swagger.client.ApiException;
 import io.swagger.client.model.Article;
-import io.swagger.client.model.InlineResponse2002;
 import org.junit.Test;
 import org.junit.Ignore;
 
@@ -46,22 +45,6 @@ public class ArticleApiTest {
         String feedId = null;
         String articleId = null;
         Article response = api.articlesFeedIdArticleIdGet(feedId, articleId);
-
-        // TODO: test validations
-    }
-    
-    /**
-     * retrieve the lisT of articles in the feed
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void articlesFeedIdGetTest() throws ApiException {
-        String feedId = null;
-        List<InlineResponse2002> response = api.articlesFeedIdGet(feedId);
 
         // TODO: test validations
     }

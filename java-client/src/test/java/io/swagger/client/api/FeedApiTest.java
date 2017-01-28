@@ -16,7 +16,6 @@ package io.swagger.client.api;
 import io.swagger.client.ApiException;
 import java.math.BigDecimal;
 import io.swagger.client.model.Feed;
-import io.swagger.client.model.InlineResponse2001;
 import org.junit.Test;
 import org.junit.Ignore;
 
@@ -76,7 +75,7 @@ public class FeedApiTest {
      */
     @Test
     public void feedsGetTest() throws ApiException {
-        List<InlineResponse2001> response = api.feedsGet();
+        List<Feed> response = api.feedsGet();
 
         // TODO: test validations
     }
