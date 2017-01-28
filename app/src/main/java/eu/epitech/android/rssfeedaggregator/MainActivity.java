@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+        //TODO open the database only one time here
 
         /*getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);*/
@@ -30,9 +31,16 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO custom popup to add feed, go back to the feed list and launch an refresh of the list
+                //TODO custom alert dialog to add feed, go back to the feed list and launch a refresh of the list
+                // if already in feed list just launch a refresh
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        //TODO close the database here
+        super.onDestroy();
     }
 
     @Override
@@ -44,7 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //TODO rm everything in the database
+        //TODO rm everything in my database
+        //logout on the server
         if (item.getItemId() == R.id.logout)
             finish();
         return true;
