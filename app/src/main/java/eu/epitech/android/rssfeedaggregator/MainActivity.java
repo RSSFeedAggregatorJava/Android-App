@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -38,9 +39,14 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addFeed();
+                if (mAddFeedTask == null)
+                    addFeed();
             }
         });
+    }
+
+    public void changeToolbarTitle(String title) {
+        mToolbar.setTitle(title);
     }
 
     private void addFeed() {
@@ -53,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
         dialogBuilder.setTitle(getString(R.string.add_feed_dialog_title));
         dialogBuilder.setMessage(getString(R.string.add_feed_dialog_message));
-        dialogBuilder.setPositiveButton(getString(R.string.add_feed_dialog_positive), new DialogInterface.OnClickListener() {
+        dialogBuilder.setPositiveButton(getString(R.string.feed_dialog_positive), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 if (!Utils.isConnectedToInternet(MainActivity.this))
                     Utils.createSnackBar((CoordinatorLayout) MainActivity.this.findViewById(R.id.main_layout),
@@ -64,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        dialogBuilder.setNegativeButton(getString(R.string.add_feed_dialog_negative), new DialogInterface.OnClickListener() {
+        dialogBuilder.setNegativeButton(getString(R.string.feed_dialog_negative), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
             }
         });
@@ -91,8 +97,10 @@ public class MainActivity extends AppCompatActivity {
                 Utils.createSnackBar((CoordinatorLayout) findViewById(R.id.main_layout),
                         getString(R.string.error_internet_connection_snackbar_logout));
             else {
-                mLogoutTask = new LogoutTask();
-                mLogoutTask.execute((Void) null);
+                if (mLogoutTask == null) {
+                    mLogoutTask = new LogoutTask();
+                    mLogoutTask.execute((Void) null);
+                }
             }
         }
         return true;
@@ -152,15 +160,20 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(final Boolean res) {
-            mLogoutTask = null;
-            if (res)
+            mAddFeedTask = null;
+            if (res) {
                 Utils.createSnackBar((CoordinatorLayout) MainActivity.this.findViewById(R.id.main_layout),
                         getString(R.string.feed_added));
+                FeedListFragment frag = new FeedListFragment();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment, frag);
+                transaction.commit();
+            }
         }
 
         @Override
         protected void onCancelled() {
-            mLogoutTask = null;
+            mAddFeedTask = null;
         }
     }
 }

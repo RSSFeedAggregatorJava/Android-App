@@ -4,12 +4,14 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,7 @@ import io.swagger.client.model.InlineResponse2001;
 public class FeedListFragment extends Fragment {
 
     private GetFeedListTask mGetFeedListTask = null;
+    private DeleteFeedTask mDeleteFeedTask = null;
 
     private SwipeRefreshLayout mSwipeLayout;
     private ListView mListView;
@@ -42,6 +45,7 @@ public class FeedListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_feed_list, container, false);
 
         mContext = getActivity();
+        ((MainActivity)getActivity()).changeToolbarTitle(getString(R.string.feed_list_title));
         mProgressView = view.findViewById(R.id.feed_list_progress);
         mApiKey = DatabaseManager.getInstance().getApiKey();
         initiateSwipeLayout(view);
@@ -55,15 +59,17 @@ public class FeedListFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO open the next fragment passing mDataList.get(position)
+                //TODO open the next fragment passing mDataList.get(position).getId()
             }
         });
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO open an alert dialog to confirm you wanna remove this feed
-                refreshView();
-                return false;
+                if (mDeleteFeedTask == null) {
+                    deleteFeed(mDataList.get(position).getId());
+                    refreshView();
+                }
+                return true;
             }
         });
         showProgress(true);
@@ -90,6 +96,30 @@ public class FeedListFragment extends Fragment {
         });
         mSwipeLayout.setColorSchemeResources(android.R.color.holo_green_dark, android.R.color.holo_red_dark,
                 android.R.color.holo_blue_dark, android.R.color.holo_orange_dark);
+    }
+
+    private void deleteFeed(final int id) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+
+        dialogBuilder.setTitle(getString(R.string.delete_feed_dialog_title));
+        dialogBuilder.setMessage(getString(R.string.delete_feed_dialog_message));
+        dialogBuilder.setPositiveButton(getString(R.string.feed_dialog_positive), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                if (!Utils.isConnectedToInternet(getActivity()))
+                    Utils.createSnackBar((CoordinatorLayout) getActivity().findViewById(R.id.main_layout),
+                            getString(R.string.error_internet_connection_snackbar_addfeed));
+                else {
+                    mDeleteFeedTask = new DeleteFeedTask();
+                    mDeleteFeedTask.execute(id);
+                }
+            }
+        });
+        dialogBuilder.setNegativeButton(getString(R.string.feed_dialog_negative), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+            }
+        });
+        AlertDialog b = dialogBuilder.create();
+        b.show();
     }
 
     public void refreshView() {
@@ -172,6 +202,33 @@ public class FeedListFragment extends Fragment {
             showProgress(false);
             mSwipeLayout.setRefreshing(false);
             mGetFeedListTask = null;
+        }
+    }
+
+    public class DeleteFeedTask extends AsyncTask<Integer, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Integer... params) {
+            //TODO delete feed
+
+            try {
+                // Simulate network access.
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                return false;
+            }
+
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean res) {
+            mDeleteFeedTask = null;
+        }
+
+        @Override
+        protected void onCancelled() {
+            mDeleteFeedTask = null;
         }
     }
 }

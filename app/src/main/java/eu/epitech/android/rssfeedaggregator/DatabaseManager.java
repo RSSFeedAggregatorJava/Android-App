@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class DatabaseManager {
 
-    public static DatabaseManager instance = null;
+    private static DatabaseManager instance = null;
 
     private SQLiteDatabase mDatabase;
     private final String DATABASE_NAME = "RSSFeedAggregator.db";
