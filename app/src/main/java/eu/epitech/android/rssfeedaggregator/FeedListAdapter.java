@@ -9,19 +9,19 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import io.swagger.client.model.Feed;
+import io.swagger.client.model.InlineResponse2001;
 
 public class FeedListAdapter extends BaseAdapter {
 
     private Context mContext;
-    private List<Feed> mList;
+    private List<InlineResponse2001> mList;
 
-    FeedListAdapter(Context context, List<Feed> result) {
+    FeedListAdapter(Context context, List<InlineResponse2001> result) {
         mContext = context;
         mList = result;
     }
 
-    public void setList(List<Feed> list) {
+    public void setList(List<InlineResponse2001> list) {
         mList = list;
         notifyDataSetChanged();
     }
