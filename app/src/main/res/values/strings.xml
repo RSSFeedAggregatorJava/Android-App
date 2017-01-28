@@ -10,8 +10,16 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password_or_email">Email address or password incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="error_internet_connection_snackbar_sign_in">No internet connection, impossible to sign in</string>
+    <string name="error_internet_connection_snackbar_sign_in">No internet connection, impossible to sign in or register</string>
     <string name="error_internet_connection_snackbar_update">No internet connection, impossible to update</string>
+    <string name="error_internet_connection_snackbar_logout">No internet connection, impossible to logout</string>
+    <string name="error_internet_connection_snackbar_addfeed">No internet connection, impossible to add a feed</string>
     <string name="retry_btn">RETRY</string>
     <string name="logout">Logout</string>
+    <string name="add_feed_dialog_title">Add a feed</string>
+    <string name="add_feed_dialog_message">Please enter the feed URL :</string>
+    <string name="add_feed_dialog_positive">Done</string>
+    <string name="add_feed_dialog_negative">Cancel</string>
+    <string name="feed_added">Feed Added</string>
+
 </resources>

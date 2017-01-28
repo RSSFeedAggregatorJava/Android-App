@@ -1,6 +1,11 @@
 package eu.epitech.android.rssfeedaggregator;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
+import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -17,12 +22,15 @@ import io.swagger.client.model.InlineResponse2001;
 
 public class FeedListFragment extends Fragment {
 
-    private GetFeedListTask mGetFeedListTask;
+    private GetFeedListTask mGetFeedListTask = null;
+
     private SwipeRefreshLayout mSwipeLayout;
     private ListView mListView;
     private FeedListAdapter mListAdapter;
     private List<InlineResponse2001> mDataList;
     private String mApiKey;
+    private View mProgressView;
+    private Context mContext;
 
     public FeedListFragment() {
 
@@ -33,7 +41,9 @@ public class FeedListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_feed_list, container, false);
 
-        //TODO get the apikey from the database
+        mContext = getActivity();
+        mProgressView = view.findViewById(R.id.feed_list_progress);
+        mApiKey = DatabaseManager.getInstance().getApiKey();
         initiateSwipeLayout(view);
         initiateListView(view);
 
@@ -52,18 +62,13 @@ public class FeedListFragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 //TODO open an alert dialog to confirm you wanna remove this feed
-                // if yes rm on the server and refresh the view
+                refreshView();
                 return false;
             }
         });
+        showProgress(true);
         mGetFeedListTask = new GetFeedListTask();
-        try {
-            mDataList = mGetFeedListTask.execute((Void) null).get();
-        } catch (Exception e) {
-            mDataList = null;
-        }
-        mListAdapter = new FeedListAdapter(getActivity(), mDataList);
-        mListView.setAdapter(mListAdapter);
+        mGetFeedListTask.execute(true);
     }
 
     private void initiateSwipeLayout(View view) {
@@ -71,15 +76,14 @@ public class FeedListFragment extends Fragment {
         mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (!Utils.isConnectedToInternet(getActivity()))
+                if (!Utils.isConnectedToInternet(mContext))
                     Utils.createSnackBar((CoordinatorLayout) getActivity().findViewById(R.id.main_layout),
                             getString(R.string.error_internet_connection_snackbar_update));
-                mGetFeedListTask = new GetFeedListTask();
-                try {
-                    mDataList = mGetFeedListTask.execute((Void) null).get();
-                    mListAdapter.setList(mDataList);
-                } catch (Exception e) {
-
+                else {
+                    if (mGetFeedListTask == null) {
+                        mGetFeedListTask = new GetFeedListTask();
+                        mGetFeedListTask.execute(false);
+                    }
                 }
                 mSwipeLayout.setRefreshing(false);
             }
@@ -97,10 +101,42 @@ public class FeedListFragment extends Fragment {
         });
     }
 
-    public class GetFeedListTask extends AsyncTask<Void, Void, List<InlineResponse2001>> {
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+            mSwipeLayout.setVisibility(show ? View.GONE : View.VISIBLE);
+            mSwipeLayout.animate().setDuration(shortAnimTime).alpha(
+                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mSwipeLayout.setVisibility(show ? View.GONE : View.VISIBLE);
+                }
+            });
+
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mProgressView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mSwipeLayout.setVisibility(show ? View.GONE : View.VISIBLE);
+        }
+    }
+
+    public class GetFeedListTask extends AsyncTask<Boolean, Void, List<InlineResponse2001>> {
+
+        Boolean mIsStartingGet;
 
         @Override
-        protected List<InlineResponse2001> doInBackground(Void... params) {
+        protected List<InlineResponse2001> doInBackground(Boolean... params) {
+            mIsStartingGet = params[0];
+
             //TODO get the list from the API
             //TODO set the list in the database
             //TODO if cannot get the list from the API, retrieve the list from the database
@@ -115,11 +151,26 @@ public class FeedListFragment extends Fragment {
 
         @Override
         protected void onPostExecute(final List<InlineResponse2001> list) {
+            if (mIsStartingGet) {
+                mListAdapter = new FeedListAdapter(mContext, list);
+                mListView.setAdapter(mListAdapter);
+            } else {
+                if (mListAdapter != null)
+                    mListAdapter.setList(list);
+                else {
+                    mListAdapter = new FeedListAdapter(mContext, list);
+                    mListView.setAdapter(mListAdapter);
+                }
+            }
+            showProgress(false);
+            mSwipeLayout.setRefreshing(false);
             mGetFeedListTask = null;
         }
 
         @Override
         protected void onCancelled() {
+            showProgress(false);
+            mSwipeLayout.setRefreshing(false);
             mGetFeedListTask = null;
         }
     }

@@ -1,20 +1,26 @@
 package eu.epitech.android.rssfeedaggregator;
 
+import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
     Toolbar mToolbar;
+    LogoutTask mLogoutTask = null;
+    AddFeedTask mAddFeedTask = null;
+    String mApiKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        //TODO open the database only one time here
+
+        mApiKey = DatabaseManager.getInstance().getApiKey();
 
         /*getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);*/
@@ -31,15 +38,42 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO custom alert dialog to add feed, go back to the feed list and launch a refresh of the list
-                // if already in feed list just launch a refresh
+                addFeed();
             }
         });
     }
 
+    private void addFeed() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.add_feed_alert_dialog, null);
+        dialogBuilder.setView(dialogView);
+
+        final EditText edt = (EditText) dialogView.findViewById(R.id.add_feed);
+
+        dialogBuilder.setTitle(getString(R.string.add_feed_dialog_title));
+        dialogBuilder.setMessage(getString(R.string.add_feed_dialog_message));
+        dialogBuilder.setPositiveButton(getString(R.string.add_feed_dialog_positive), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                if (!Utils.isConnectedToInternet(MainActivity.this))
+                    Utils.createSnackBar((CoordinatorLayout) MainActivity.this.findViewById(R.id.main_layout),
+                            getString(R.string.error_internet_connection_snackbar_addfeed));
+                else {
+                    mAddFeedTask = new AddFeedTask();
+                    mAddFeedTask.execute(edt.getText().toString());
+                }
+            }
+        });
+        dialogBuilder.setNegativeButton(getString(R.string.add_feed_dialog_negative), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+            }
+        });
+        AlertDialog b = dialogBuilder.create();
+        b.show();
+    }
+
     @Override
     protected void onDestroy() {
-        //TODO close the database here
         super.onDestroy();
     }
 
@@ -52,15 +86,81 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //TODO rm everything in my database
-        //logout on the server
-        if (item.getItemId() == R.id.logout)
-            finish();
+        if (item.getItemId() == R.id.logout) {
+            if (!Utils.isConnectedToInternet(this))
+                Utils.createSnackBar((CoordinatorLayout) findViewById(R.id.main_layout),
+                        getString(R.string.error_internet_connection_snackbar_logout));
+            else {
+                mLogoutTask = new LogoutTask();
+                mLogoutTask.execute((Void) null);
+            }
+        }
         return true;
     }
 
     @Override
     public void onBackPressed() {
         moveTaskToBack(true);
+    }
+
+    public class LogoutTask extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            //TODO logout
+
+            try {
+                // Simulate network access.
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                return false;
+            }
+
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mLogoutTask = null;
+            if (success) {
+                DatabaseManager.getInstance().deleteDatabase();
+                finish();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mLogoutTask = null;
+        }
+    }
+
+    public class AddFeedTask extends AsyncTask<String, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            //TODO add feed
+
+            try {
+                // Simulate network access.
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                return false;
+            }
+
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean res) {
+            mLogoutTask = null;
+            if (res)
+                Utils.createSnackBar((CoordinatorLayout) MainActivity.this.findViewById(R.id.main_layout),
+                        getString(R.string.feed_added));
+        }
+
+        @Override
+        protected void onCancelled() {
+            mLogoutTask = null;
+        }
     }
 }

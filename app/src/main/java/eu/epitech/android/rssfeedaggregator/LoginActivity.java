@@ -28,12 +28,16 @@ public class LoginActivity extends AppCompatActivity {
     private View mProgressView;
     private View mLoginFormView;
     private CoordinatorLayout mMainLayout;
+    private DatabaseManager mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //TODO open or create and look in the database if i'm already logged in
-        // if already logged in go directly to the next activity
+        mDatabase = DatabaseManager.getInstance();
+        if (mDatabase.getApiKey() != null) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
         setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -68,7 +72,6 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        //TODO close the database here
         super.onDestroy();
     }
 
@@ -180,6 +183,7 @@ public class LoginActivity extends AppCompatActivity {
 
             // TODO: register the new account here.
             // TODO: save the token got in the database.
+            mDatabase.setApiKey("key", 1);
             return true;
         }
 
