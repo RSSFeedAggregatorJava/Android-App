@@ -16,9 +16,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import io.swagger.client.ApiClient;
+import io.swagger.client.ApiException;
+import io.swagger.client.Configuration;
+import io.swagger.client.api.FeedApi;
+import io.swagger.client.api.UserApi;
+import io.swagger.client.auth.ApiKeyAuth;
+
 public class MainActivity extends AppCompatActivity {
 
-    Toolbar mToolbar;
+    Toolbar mToolbar = null;
     LogoutTask mLogoutTask = null;
     AddFeedTask mAddFeedTask = null;
     String mApiKey;
@@ -32,9 +39,6 @@ public class MainActivity extends AppCompatActivity {
 
         mApiKey = DatabaseManager.getInstance().getApiKey();
 
-        /*getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);*/
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,8 +49,31 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void openFeedListFragment() {
+        FeedListFragment frag = new FeedListFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment, frag);
+        transaction.commit();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
+    }
+
+    public void openArticleListFragment(int id) {
+        ArticleListFragment frag = new ArticleListFragment();
+        Bundle args = new Bundle();
+        args.putInt(ArticleListFragment.ARG_ID, id);
+        frag.setArguments(args);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment, frag);
+        transaction.commit();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+    }
+
     public void changeToolbarTitle(String title) {
-        mToolbar.setTitle(title);
+        if (mToolbar != null)
+            mToolbar.setTitle(title);
     }
 
     private void addFeed() {
@@ -115,12 +142,16 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            //TODO logout
-
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
+                ApiClient defaultClient = Configuration.getDefaultApiClient();
+
+                ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
+                api_key.setApiKey(mApiKey);
+
+                UserApi apiInstance = new UserApi();
+                apiInstance.usersLogoutGet();
+            } catch (ApiException e) {
+                e.printStackTrace();
                 return false;
             }
 
@@ -146,12 +177,17 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(String... params) {
-            //TODO add feed
 
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
+                ApiClient defaultClient = Configuration.getDefaultApiClient();
+
+                ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
+                api_key.setApiKey(mApiKey);
+
+                FeedApi apiInstance = new FeedApi();
+                apiInstance.feedsPost(params[0]);
+            } catch (ApiException e) {
+                e.printStackTrace();
                 return false;
             }
 
@@ -164,10 +200,7 @@ public class MainActivity extends AppCompatActivity {
             if (res) {
                 Utils.createSnackBar((CoordinatorLayout) MainActivity.this.findViewById(R.id.main_layout),
                         getString(R.string.feed_added));
-                FeedListFragment frag = new FeedListFragment();
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment, frag);
-                transaction.commit();
+                openFeedListFragment();
             }
         }
 

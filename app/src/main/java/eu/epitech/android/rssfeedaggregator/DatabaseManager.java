@@ -4,6 +4,11 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import io.swagger.client.model.InlineResponse2001;
+
 public class DatabaseManager {
 
     private static DatabaseManager instance = null;
@@ -15,8 +20,13 @@ public class DatabaseManager {
     private final String ACCOUNT_TABLE_NAME = "account";
     private final String API_KEY_FIELD = "api_key";
     private final String ACCOUNT_ID_FIELD = "account_id";
+    private final String CREATE_FEED_LIST_TABLE = "CREATE TABLE IF NOT EXISTS feed_list(id INTEGER PRIMARY KEY AUTOINCREMENT, feed_title VARCHAR, feed_id INTEGER);";
+    private final String FEED_LIST_TABLE_NAME = "feed_list";
+    private final String FEED_TITLE_FIELD = "feed_title";
+    private final String FEED_ID_FIELD = "feed_id";
 
     private final String GET_API_KEY = "SELECT api_key FROM account LIMIT 1";
+    private final String GET_FEED_LIST = "SELECT * FROM feed_list";
 
     public static DatabaseManager getInstance() {
         if (instance == null) {
@@ -28,6 +38,7 @@ public class DatabaseManager {
     DatabaseManager() {
         mDatabase = SQLiteDatabase.openOrCreateDatabase(DATABASE_PATH + DATABASE_NAME, null);
         mDatabase.execSQL(CREATE_ACCOUNT_TABLE);
+        mDatabase.execSQL(CREATE_FEED_LIST_TABLE);
     }
 
     public String getApiKey() {
@@ -45,7 +56,30 @@ public class DatabaseManager {
         mDatabase.insertOrThrow(ACCOUNT_TABLE_NAME, null, contentValues);
     }
 
+    public void setFeedList(List<InlineResponse2001> list) {
+        for (InlineResponse2001 res : list) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(FEED_TITLE_FIELD, res.getTitle());
+            contentValues.put(FEED_ID_FIELD, res.getId());
+            mDatabase.insertOrThrow(FEED_LIST_TABLE_NAME, null, contentValues);
+        }
+    }
+
+    public List<InlineResponse2001> getFeedList() {
+        ArrayList<InlineResponse2001> mList = new ArrayList<>();
+        Cursor cur = mDatabase.rawQuery(GET_FEED_LIST, null);
+        cur.moveToFirst();
+        while (cur.moveToNext()) {
+            InlineResponse2001 res = new InlineResponse2001();
+            res.setTitle(cur.getString(cur.getColumnIndex(FEED_TITLE_FIELD)));
+            res.setId(cur.getInt(cur.getColumnIndex(FEED_ID_FIELD)));
+            mList.add(res);
+        }
+        return mList;
+    }
+
     public void deleteDatabase() {
         mDatabase.delete(ACCOUNT_TABLE_NAME, null, null);
+        mDatabase.delete(FEED_LIST_TABLE_NAME, null, null);
     }
 }

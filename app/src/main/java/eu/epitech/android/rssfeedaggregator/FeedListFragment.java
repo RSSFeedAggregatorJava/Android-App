@@ -20,6 +20,11 @@ import android.widget.ListView;
 
 import java.util.List;
 
+import io.swagger.client.ApiClient;
+import io.swagger.client.ApiException;
+import io.swagger.client.Configuration;
+import io.swagger.client.api.FeedApi;
+import io.swagger.client.auth.ApiKeyAuth;
 import io.swagger.client.model.InlineResponse2001;
 
 public class FeedListFragment extends Fragment {
@@ -29,7 +34,7 @@ public class FeedListFragment extends Fragment {
 
     private SwipeRefreshLayout mSwipeLayout;
     private ListView mListView;
-    private FeedListAdapter mListAdapter;
+    private ListAdapter mListAdapter;
     private List<InlineResponse2001> mDataList;
     private String mApiKey;
     private View mProgressView;
@@ -59,7 +64,7 @@ public class FeedListFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO open the next fragment passing mDataList.get(position).getId()
+                ((MainActivity)getActivity()).openArticleListFragment(mDataList.get(position).getId());
             }
         });
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -166,29 +171,36 @@ public class FeedListFragment extends Fragment {
         @Override
         protected List<InlineResponse2001> doInBackground(Boolean... params) {
             mIsStartingGet = params[0];
+            List<InlineResponse2001> result;
 
-            //TODO get the list from the API
-            //TODO set the list in the database
-            //TODO if cannot get the list from the API, retrieve the list from the database
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return null;
+                ApiClient defaultClient = Configuration.getDefaultApiClient();
+
+                ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
+                api_key.setApiKey(mApiKey);
+
+                FeedApi apiInstance = new FeedApi();
+                result = apiInstance.feedsGet();
+                DatabaseManager.getInstance().setFeedList(result);
+            } catch (ApiException e) {
+                e.printStackTrace();
+                result = DatabaseManager.getInstance().getFeedList();
+                if (result.isEmpty())
+                    return null;
             }
-            return null;
+            return result;
         }
 
         @Override
         protected void onPostExecute(final List<InlineResponse2001> list) {
             if (mIsStartingGet) {
-                mListAdapter = new FeedListAdapter(mContext, list);
+                mListAdapter = new ListAdapter(mContext, list);
                 mListView.setAdapter(mListAdapter);
             } else {
                 if (mListAdapter != null)
                     mListAdapter.setList(list);
                 else {
-                    mListAdapter = new FeedListAdapter(mContext, list);
+                    mListAdapter = new ListAdapter(mContext, list);
                     mListView.setAdapter(mListAdapter);
                 }
             }
@@ -209,12 +221,16 @@ public class FeedListFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Integer... params) {
-            //TODO delete feed
-
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
+                ApiClient defaultClient = Configuration.getDefaultApiClient();
+
+                ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
+                api_key.setApiKey(mApiKey);
+
+                FeedApi apiInstance = new FeedApi();
+                apiInstance.feedsDelete(params[0]);
+            } catch (ApiException e) {
+                e.printStackTrace();
                 return false;
             }
 
@@ -224,6 +240,7 @@ public class FeedListFragment extends Fragment {
         @Override
         protected void onPostExecute(final Boolean res) {
             mDeleteFeedTask = null;
+            refreshView();
         }
 
         @Override

@@ -11,12 +11,12 @@ import java.util.List;
 
 import io.swagger.client.model.InlineResponse2001;
 
-public class FeedListAdapter extends BaseAdapter {
+public class ListAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<InlineResponse2001> mList;
 
-    FeedListAdapter(Context context, List<InlineResponse2001> result) {
+    ListAdapter(Context context, List<InlineResponse2001> result) {
         mContext = context;
         mList = result;
     }
@@ -50,8 +50,8 @@ public class FeedListAdapter extends BaseAdapter {
         if (mList == null)
             return null;
         if (convertView == null)
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.feed_list_item, parent, false);
-        TextView tv = (TextView) convertView.findViewById(R.id.feed_title);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.list_item, parent, false);
+        TextView tv = (TextView) convertView.findViewById(R.id.title);
         tv.setText(mList.get(position).getTitle());
         return convertView;
     }

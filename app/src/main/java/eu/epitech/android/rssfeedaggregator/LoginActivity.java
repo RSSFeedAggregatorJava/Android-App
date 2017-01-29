@@ -20,6 +20,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import io.swagger.client.ApiException;
+import io.swagger.client.api.UserApi;
+import io.swagger.client.model.Credentials;
+import io.swagger.client.model.Credentials1;
+import io.swagger.client.model.InlineResponse200;
+
 public class LoginActivity extends AppCompatActivity {
     private UserLoginTask mAuthTask = null;
 
@@ -172,18 +178,29 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+            InlineResponse200 result;
 
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
+                UserApi apiInstance = new UserApi();
+                Credentials1 credentials = new Credentials1();
+                credentials.setEmail(mEmail);
+                credentials.setPassword(mPassword);
+                result = apiInstance.usersLoginPost(credentials);
+            } catch (ApiException e) {
+                e.printStackTrace();
+                try {
+                    UserApi apiInstance = new UserApi();
+                    Credentials credentials2 = new Credentials();
+                    credentials2.setEmail(mEmail);
+                    credentials2.setPassword(mPassword);
+                    result = apiInstance.usersSignupPost(credentials2);
+                } catch (ApiException e2) {
+                    e.printStackTrace();
+                    return false;
+                }
             }
 
-            // TODO: register the new account here.
-            // TODO: save the token got in the database.
-            mDatabase.setApiKey("key", 1);
+            mDatabase.setApiKey(result.getApiKey(), result.getUserId().intValueExact());
             return true;
         }
 
