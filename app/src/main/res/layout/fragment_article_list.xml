@@ -12,53 +12,59 @@
         android:visibility="gone"
         android:layout_centerInParent="true"/>
 
-    <TextView
-        android:text=""
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:id="@+id/feed_desc"
-        android:textSize="18sp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:text=""
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/feed_desc"
-        android:layout_alignParentStart="true"
-        android:id="@+id/pub_date" />
-
-    <TextView
-        android:text=""
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/pub_date"
-        android:layout_alignEnd="@+id/pub_date"
-        android:id="@+id/web_link" />
-
-    <TextView
-        android:text=""
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/web_link"
-        android:layout_alignParentStart="true"
-        android:id="@+id/rss_url" />
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/swiperefresh"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/rss_url"
-        android:layout_centerHorizontal="true">
+        android:id="@+id/info_layout">
 
-        <ListView
-            android:id="@+id/feed_list"
+        <TextView
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:id="@+id/feed_desc"
+            android:textSize="18sp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/feed_desc"
+            android:layout_alignParentStart="true"
+            android:id="@+id/pub_date" />
+
+        <TextView
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pub_date"
+            android:layout_alignEnd="@+id/pub_date"
+            android:id="@+id/web_link" />
+
+        <TextView
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/web_link"
+            android:layout_alignParentStart="true"
+            android:id="@+id/rss_url" />
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/swiperefresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_below="@+id/rss_url"
+            android:layout_centerHorizontal="true">
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+            <ListView
+                android:id="@+id/feed_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+    </RelativeLayout>
 </RelativeLayout>

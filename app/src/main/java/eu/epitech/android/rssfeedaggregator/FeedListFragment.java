@@ -240,7 +240,6 @@ public class FeedListFragment extends Fragment {
         @Override
         protected void onPostExecute(final Boolean res) {
             mDeleteFeedTask = null;
-            refreshView();
         }
 
         @Override

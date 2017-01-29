@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     public void openArticleListFragment(int id) {
         ArticleListFragment frag = new ArticleListFragment();
         Bundle args = new Bundle();
-        args.putInt(ArticleListFragment.ARG_ID, id);
+        args.putInt(ArticleListFragment.ARG_FEED_ID, id);
         frag.setArguments(args);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment, frag);
