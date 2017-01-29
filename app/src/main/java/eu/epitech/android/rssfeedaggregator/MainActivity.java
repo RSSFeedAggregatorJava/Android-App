@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -68,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
     }
 
     public void changeToolbarTitle(String title) {
@@ -119,7 +119,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.logout) {
+        if (item.getItemId() == android.R.id.home) {
+            Fragment frag = getSupportFragmentManager().findFragmentById(R.id.fragment);
+            if (frag instanceof ArticleListFragment)
+                openFeedListFragment();
+        }
+        else if (item.getItemId() == R.id.logout) {
             if (!Utils.isConnectedToInternet(this))
                 Utils.createSnackBar((CoordinatorLayout) findViewById(R.id.main_layout),
                         getString(R.string.error_internet_connection_snackbar_logout));
@@ -130,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

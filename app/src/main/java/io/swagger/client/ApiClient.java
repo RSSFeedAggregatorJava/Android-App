@@ -112,7 +112,7 @@ public class ApiClient {
      */
     public static final String LENIENT_DATETIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 
-    private String basePath = "http://91.121.9.68:8080/swagger-jaxrs-server-1.0.0";
+    private String basePath = "http://213.32.91.115:8080/swagger-jaxrs-server-1.0.0/";
     private boolean lenientOnJson = false;
     private boolean debugging = false;
     private Map<String, String> defaultHeaderMap = new HashMap<String, String>();

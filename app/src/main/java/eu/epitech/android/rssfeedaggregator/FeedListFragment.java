@@ -34,8 +34,8 @@ public class FeedListFragment extends Fragment {
 
     private SwipeRefreshLayout mSwipeLayout;
     private ListView mListView;
-    private ListAdapter mListAdapter;
-    private List<InlineResponse2001> mDataList;
+    private ListAdapter mListAdapter = null;
+    private List<InlineResponse2001> mDataList = null;
     private String mApiKey;
     private View mProgressView;
     private Context mContext;
@@ -193,6 +193,7 @@ public class FeedListFragment extends Fragment {
 
         @Override
         protected void onPostExecute(final List<InlineResponse2001> list) {
+            mDataList = list;
             if (mIsStartingGet) {
                 mListAdapter = new ListAdapter(mContext, list);
                 mListView.setAdapter(mListAdapter);

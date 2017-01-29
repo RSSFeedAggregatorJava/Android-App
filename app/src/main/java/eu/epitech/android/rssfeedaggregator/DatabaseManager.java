@@ -9,6 +9,7 @@ import java.util.List;
 
 import io.swagger.client.model.Feed;
 import io.swagger.client.model.InlineResponse2001;
+import io.swagger.client.model.InlineResponse2002;
 
 public class DatabaseManager {
 
@@ -31,10 +32,15 @@ public class DatabaseManager {
     private final String PUB_DATE_FIELD = "pub_date";
     private final String WEB_LINK_FIELD = "web_link";
     private final String RSS_URL_FIELD = "rss_url";
+    private final String CREATE_ARTICLE_LIST_TABLE = "CREATE TABLE IF NOT EXISTS article_list(id INTEGER PRIMARY KEY AUTOINCREMENT, article_title VARCHAR, article_id INTEGER, feed_id INTEGER);";
+    private final String ARTICLE_LIST_TABLE_NAME = "article_list";
+    private final String ARTICLE_TITLE_FIELD = "article_title";
+    private final String ARTICLE_ID_FIELD = "article_id";
 
     private final String GET_API_KEY = "SELECT api_key FROM account LIMIT 1";
     private final String GET_FEED_LIST = "SELECT * FROM feed_list";
     private final String GET_FEED = "SELECT * FROM feed WHERE feed_id = ";
+    private final String GET_ARTICLE_LIST = "SELECT * FROM article_list WHERE feed_id = ";
 
     public static DatabaseManager getInstance() {
         if (instance == null) {
@@ -48,6 +54,7 @@ public class DatabaseManager {
         mDatabase.execSQL(CREATE_ACCOUNT_TABLE);
         mDatabase.execSQL(CREATE_FEED_LIST_TABLE);
         mDatabase.execSQL(CREATE_FEED_TABLE);
+        mDatabase.execSQL(CREATE_ARTICLE_LIST_TABLE);
     }
 
     public String getApiKey() {
@@ -87,6 +94,29 @@ public class DatabaseManager {
         return mList;
     }
 
+    public void setArticleList(List<InlineResponse2002> list, int id) {
+        for (InlineResponse2002 res : list) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(ARTICLE_TITLE_FIELD, res.getTitle());
+            contentValues.put(ARTICLE_ID_FIELD, res.getId());
+            contentValues.put(FEED_ID_FIELD, id);
+            mDatabase.insertOrThrow(ARTICLE_LIST_TABLE_NAME, null, contentValues);
+        }
+    }
+
+    public List<InlineResponse2002> getArticleList(int id) {
+        ArrayList<InlineResponse2002> mList = new ArrayList<>();
+        Cursor cur = mDatabase.rawQuery(GET_ARTICLE_LIST + id, null);
+        cur.moveToFirst();
+        while (cur.moveToNext()) {
+            InlineResponse2002 res = new InlineResponse2002();
+            res.setTitle(cur.getString(cur.getColumnIndex(ARTICLE_TITLE_FIELD)));
+            res.setId(cur.getInt(cur.getColumnIndex(ARTICLE_ID_FIELD)));
+            mList.add(res);
+        }
+        return mList;
+    }
+
     public void setFeed(Feed feed) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(FEED_TITLE_FIELD, feed.getTitle());
@@ -99,7 +129,7 @@ public class DatabaseManager {
     }
 
     public Feed getFeed(int id) {
-        Cursor cur = mDatabase.rawQuery(GET_FEED + id + ";", null);
+        Cursor cur = mDatabase.rawQuery(GET_FEED + id, null);
         cur.moveToFirst();
         Feed feed = new Feed();
         feed.setTitle(cur.getString(cur.getColumnIndex(FEED_TITLE_FIELD)));
@@ -115,5 +145,6 @@ public class DatabaseManager {
         mDatabase.delete(ACCOUNT_TABLE_NAME, null, null);
         mDatabase.delete(FEED_LIST_TABLE_NAME, null, null);
         mDatabase.delete(FEED_TABLE_NAME, null, null);
+        mDatabase.delete(ARTICLE_LIST_TABLE_NAME, null, null);
     }
 }

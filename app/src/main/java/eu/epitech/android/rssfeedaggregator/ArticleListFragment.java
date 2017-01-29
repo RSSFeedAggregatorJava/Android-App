@@ -22,6 +22,7 @@ import java.util.List;
 import io.swagger.client.ApiClient;
 import io.swagger.client.ApiException;
 import io.swagger.client.Configuration;
+import io.swagger.client.api.ArticleApi;
 import io.swagger.client.api.FeedApi;
 import io.swagger.client.auth.ApiKeyAuth;
 import io.swagger.client.model.Feed;
@@ -40,7 +41,7 @@ public class ArticleListFragment extends Fragment {
     private Context mContext;
     private ListView mListView;
     private List<InlineResponse2002> mDataList;
-    private ListAdapter mListAdapter;
+    private ArticleListAdapter mListAdapter = null;
     private View mInfoLayout;
     private TextView mFeedDesc;
     private TextView mPubDate;
@@ -83,8 +84,8 @@ public class ArticleListFragment extends Fragment {
         showProgress(true);
         mGetFeedInfoTask = new GetFeedInfoTask();
         mGetFeedInfoTask.execute((Void)null);
-        //TODO get info about feed
-        //TODO get list of articles
+        mGetArticleListTask = new GetArticleListTask();
+        mGetArticleListTask.execute(true);
     }
 
     private void initiateSwipeLayout(View view) {
@@ -100,23 +101,16 @@ public class ArticleListFragment extends Fragment {
                         mGetFeedInfoTask = new GetFeedInfoTask();
                         mGetFeedInfoTask.execute((Void)null);
                     }
-                    //TODO get info about feed
-                    //TODO get list article
+                    if (mGetArticleListTask == null) {
+                        mGetArticleListTask = new GetArticleListTask();
+                        mGetArticleListTask.execute(false);
+                    }
                 }
                 mSwipeLayout.setRefreshing(false);
             }
         });
         mSwipeLayout.setColorSchemeResources(android.R.color.holo_green_dark, android.R.color.holo_red_dark,
                 android.R.color.holo_blue_dark, android.R.color.holo_orange_dark);
-    }
-
-    public void refreshView() {
-        mSwipeLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeLayout.setRefreshing(true);
-            }
-        });
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
@@ -187,13 +181,47 @@ public class ArticleListFragment extends Fragment {
 
     public class GetArticleListTask extends AsyncTask<Boolean, Void, List<InlineResponse2002>> {
 
+        Boolean mIsStartingGet;
+
         @Override
         protected List<InlineResponse2002> doInBackground(Boolean... params) {
-            return null;
+            mIsStartingGet = params[0];
+            List<InlineResponse2002> result;
+
+            try {
+                ApiClient defaultClient = Configuration.getDefaultApiClient();
+
+                ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
+                api_key.setApiKey(mApiKey);
+
+                ArticleApi apiInstance = new ArticleApi();
+                result = apiInstance.articlesFeedIdGet(String.valueOf(mFeedId));
+                DatabaseManager.getInstance().setArticleList(result, mFeedId);
+            } catch (ApiException e) {
+                e.printStackTrace();
+                result = DatabaseManager.getInstance().getArticleList(mFeedId);
+                if (result.isEmpty())
+                    return null;
+            }
+            return result;
         }
 
         @Override
         protected void onPostExecute(final List<InlineResponse2002> res) {
+            mDataList = res;
+            if (mIsStartingGet) {
+                mListAdapter = new ArticleListAdapter(mContext, res);
+                mListView.setAdapter(mListAdapter);
+            } else {
+                if (mListAdapter != null)
+                    mListAdapter.setList(res);
+                else {
+                    mListAdapter = new ArticleListAdapter(mContext, res);
+                    mListView.setAdapter(mListAdapter);
+                }
+            }
+            showProgress(false);
+            mSwipeLayout.setRefreshing(false);
             mGetArticleListTask = null;
         }
 
