@@ -78,7 +78,7 @@ public class ArticleListFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO open article fragment
+                ((MainActivity)getActivity()).openArticleFragment(mFeedId, mDataList.get(position).getId());
             }
         });
         showProgress(true);
@@ -165,11 +165,13 @@ public class ArticleListFragment extends Fragment {
 
         @Override
         protected void onPostExecute(final Feed res) {
-            ((MainActivity)getActivity()).changeToolbarTitle(res.getTitle());
-            mFeedDesc.setText(res.getDescription());
-            mPubDate.setText(res.getPubDate());
-            mWebLink.setText(res.getLink());
-            mRssUrl.setText(res.getUrl());
+            if (res != null) {
+                ((MainActivity) getActivity()).changeToolbarTitle(res.getTitle());
+                mFeedDesc.setText(res.getDescription());
+                mPubDate.setText(res.getPubDate());
+                mWebLink.setText(res.getLink());
+                mRssUrl.setText(res.getUrl());
+            }
             mGetFeedInfoTask = null;
         }
 

@@ -71,6 +71,19 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
+    public void openArticleFragment(int feedId, int articleId) {
+        ArticleFragment frag = new ArticleFragment();
+        Bundle args = new Bundle();
+        args.putInt(ArticleFragment.ARG_FEED_ID, feedId);
+        args.putInt(ArticleFragment.ARG_ARTICLE_ID, articleId);
+        frag.setArguments(args);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment, frag);
+        transaction.commit();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
     public void changeToolbarTitle(String title) {
         if (mToolbar != null)
             mToolbar.setTitle(title);
@@ -106,11 +119,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
@@ -123,6 +131,9 @@ public class MainActivity extends AppCompatActivity {
             Fragment frag = getSupportFragmentManager().findFragmentById(R.id.fragment);
             if (frag instanceof ArticleListFragment)
                 openFeedListFragment();
+            else if (frag instanceof ArticleFragment) {
+                openArticleListFragment(((ArticleFragment)frag).getFeedId());
+            }
         }
         else if (item.getItemId() == R.id.logout) {
             if (!Utils.isConnectedToInternet(this))
