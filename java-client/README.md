@@ -94,7 +94,7 @@ public class ArticleApiExample {
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *http://91.121.9.68:8080/swagger-jaxrs-server-1.0.0*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------

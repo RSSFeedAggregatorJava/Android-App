@@ -1,6 +1,6 @@
 # ArticleApi
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *http://91.121.9.68:8080/swagger-jaxrs-server-1.0.0*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------

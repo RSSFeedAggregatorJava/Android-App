@@ -403,14 +403,12 @@ public class FeedApi {
     }
     /* Build call for feedsPost */
     private com.squareup.okhttp.Call feedsPostCall(String feedUrl, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
+        Object localVarPostBody = feedUrl;
         
         // create path and map variables
         String localVarPath = "/feeds".replaceAll("\\{format\\}","json");
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        if (feedUrl != null)
-        localVarQueryParams.addAll(apiClient.parameterToPairs("", "feedUrl", feedUrl));
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
 

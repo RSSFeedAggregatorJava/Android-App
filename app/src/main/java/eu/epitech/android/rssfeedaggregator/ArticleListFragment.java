@@ -56,7 +56,7 @@ public class ArticleListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_feed_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_article_list, container, false);
 
         mFeedId = getArguments().getInt(ARG_FEED_ID);
         mApiKey = DatabaseManager.getInstance().getApiKey();
@@ -202,7 +202,7 @@ public class ArticleListFragment extends Fragment {
             } catch (ApiException e) {
                 e.printStackTrace();
                 result = DatabaseManager.getInstance().getArticleList(mFeedId);
-                if (result.isEmpty())
+                if (result != null && result.isEmpty())
                     return null;
             }
             return result;

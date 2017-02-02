@@ -112,11 +112,13 @@ public class DatabaseManager {
 
     public void setFeedList(List<InlineResponse2001> list) {
         mDatabase.delete(FEED_LIST_TABLE_NAME, null, null);
-        for (InlineResponse2001 res : list) {
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(FEED_TITLE_FIELD, res.getTitle());
-            contentValues.put(FEED_ID_FIELD, res.getId());
-            mDatabase.insertOrThrow(FEED_LIST_TABLE_NAME, null, contentValues);
+        if (list != null) {
+            for (InlineResponse2001 res : list) {
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(FEED_TITLE_FIELD, res.getTitle());
+                contentValues.put(FEED_ID_FIELD, res.getId());
+                mDatabase.insertOrThrow(FEED_LIST_TABLE_NAME, null, contentValues);
+            }
         }
     }
 
